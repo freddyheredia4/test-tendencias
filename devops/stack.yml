@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  frontend-tendencias: 
+    image: testfrontend:latest
+    networks:
+      - traefik-public
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.test-frontend.entrypoints=http"
+        - "traefik.http.routers.test-frontend.rule=Host(`test-frontend.sistemaagil.net`)"
+        - "traefik.http.middlewares.test-frontend-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.test-frontend.middlewares=test-frontend-https-redirect"
+        - "traefik.http.routers.test-frontend-secure.entrypoints=https"
+        - "traefik.http.routers.test-frontend-secure.rule=Host(`test-frontend.sistemaagil.net`)"
+        - "traefik.http.routers.test-frontend-secure.tls=true"
+        - "traefik.http.routers.test-frontend-secure.tls.certresolver=http"
+        - "traefik.http.routers.test-frontend-secure.service=test-frontend"
+        - "traefik.http.services.test-frontend.loadbalancer.server.port=80"
+        - "traefik.docker.network=traefik-public"
+
+networks:
+  traefik-public:
+    external: true

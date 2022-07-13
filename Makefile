@@ -1,5 +1,7 @@
 build-dev:
-  @ docker build -f devops/Dockerfile -t testangular:latest .
+	@ docker build -f devops/Dockerfile -t testfrontend:latest .
+deploy:
+	@ docker stack deploy -c devops/stack.yml tendencias-na
+rm:
+	@ docker stack rm tendencias-na
 
-run:
-  @ docker run -it --rm --name=test-tendencias -p 8090:80 testangular:latest
