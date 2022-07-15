@@ -5,6 +5,7 @@ services:
     image: testfrontend:latest
     networks:
       - traefik-public
+      - tendencias-networks
     deploy:
       labels:
         - "traefik.enable=true"
@@ -20,6 +21,35 @@ services:
         - "traefik.http.services.test-frontend.loadbalancer.server.port=80"
         - "traefik.docker.network=traefik-public"
 
+  backend-tendencias:
+    image: backend-tendencias:latest
+    networks:
+      - tendencias-networks
+      - traefik-public
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.backend-tendencias.entrypoints=http"
+        - "traefik.http.routers.backend-tendencias.rule=Host(`backend-tendencias.sistemaagil.net`)"
+        - "traefik.http.middlewares.backend-tendencias-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.backend-tendencias.middlewares=backend-tendencias-https-redirect"
+        - "traefik.http.routers.backend-tendencias-secure.entrypoints=https"
+        - "traefik.http.routers.backend-tendencias-secure.rule=Host(`backend-tendencias.sistemaagil.net`)"
+        - "traefik.http.routers.backend-tendencias-secure.tls=true"
+        - "traefik.http.routers.backend-tendencias-secure.tls.certresolver=http"
+        - "traefik.http.routers.backend-tendencias-secure.service=backend-tendencias"
+        - "traefik.http.services.backend-tendencias.loadbalancer.server.port=3000"
+        - "traefik.docker.network=traefik-public"
+
+
+  basededatos-pg:
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: r6qJMCocTNQdHXQyCMhW
+    networks:
+      - tendencias-networks	
 networks:
   traefik-public:
+    external: true
+  tendencias-networks:
     external: true
