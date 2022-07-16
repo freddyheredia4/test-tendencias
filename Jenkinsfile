@@ -16,7 +16,6 @@ pipeline {
             }
             steps{ 
                 sh "npm install"
-                sh "npm test"
                 sh "npm run sonar"  
             }
         }
@@ -40,6 +39,7 @@ pipeline {
                     ).trim().toUpperCase().replaceAll("[\n\r]", "")
                     if (estatus == '"ERROR"'){
                         throw new Exception("No supera los estandares de calidad..")
+
                     }
                     if (estatus.isEmpty()){
                         throw new Exception("Not OK status isEmpty, please check sonarqube report")
