@@ -1,0 +1,6 @@
+projectKey=test-tendencias
+serverUrl=https://sonarqube.sistemaagil.net
+serverVersion=8.9.2.46101
+dashboardUrl=https://sonarqube.sistemaagil.net/dashboard?id=test-tendencias
+ceTaskId=AYIEt9dqhf150genWRId
+ceTaskUrl=https://sonarqube.sistemaagil.net/api/ce/task?id=AYIEt9dqhf150genWRId
